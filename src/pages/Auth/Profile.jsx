@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PlantCardGrid from "../../Components/PlantCardGrid";
 import { getUserData } from "../../apis/user.api";
+import { Flower, Mail, MapPin, Pencil, Save, UserCircle } from "lucide-react";
 
 function ProfileDashboard() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -49,7 +50,7 @@ function ProfileDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-transparent to-green-100 flex flex-col items-center p-6">
+    <div className="min-h-screen bg-gradient-to-br font-serif from-green-50 via-transparent to-green-100 flex flex-col items-center p-6">
       {/* Navigation Tabs */}
       <div className="max-w-2xl mb-6 flex space-x-4">
         <button
@@ -60,7 +61,7 @@ function ProfileDashboard() {
               : "bg-white text-green-600 border border-green-600 hover:bg-green-50"
           }`}
         >
-          Profile
+          <UserCircle className="inline-block" /> Personal Details
         </button>
         <button
           onClick={() => setActiveTab("posts")}
@@ -70,48 +71,62 @@ function ProfileDashboard() {
               : "bg-white text-green-600 border border-green-600 hover:bg-green-50"
           }`}
         >
-          My Posts
+          <Flower className="inline-block mr-2" /> My Plant Postcards
         </button>
       </div>
-
+      {/* bg-[#4CA771] */}
       {/* Profile Tab */}
       {activeTab === "profile" && (
-        <div className="w-full max-w-2xl bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8">
-          <h2 className="text-3xl font-bold text-center text-green-900 mb-6">
-            Your Profile
+        <div className="w-full max-w-2xl bg-[#EAF9E7] backdrop-blur-sm rounded-xl shadow-lg p-8">
+          <h2 className="text-4xl font-bold mb-6 text-[#013237] border-b-2 border-[#013237] pb-4">
+            Personal Details
+            <button
+              onClick={() => setIsEditing(!isEditing)}
+              className=" bg-[#013237] text-[#F4ECD8] p-2 rounded-full hover:bg-[#A0522D] transition-colors"
+            >
+              {isEditing ? <Save /> : <Pencil />}
+            </button>
           </h2>
-          <form onSubmit={handleProfileSubmit} className="space-y-6">
-            {[ // Profile fields
-              { label: "Name", name: "name", icon: "👤" },
-              { label: "Email", name: "email", type: "email", icon: "✉️" },
-              { label: "Phone Number", name: "phoneNumber", icon: "📱" },
-              { label: "Address", name: "address", icon: "🏠" },
-              { label: "City", name: "city", icon: "🏙️" },
-              { label: "Country", name: "country", icon: "🌍" },
+
+          <form onSubmit={handleProfileSubmit} className="space-y-3">
+            {[
+              { label: "Full Name", name: "name", icon: <UserCircle /> },
+              {
+                label: "Email Address",
+                name: "email",
+                type: "email",
+                icon: <Mail />,
+              },
+              {
+                label: "Phone Number",
+                name: "phoneNumber",
+                icon: <UserCircle />,
+              },
+              { label: "Home Address", name: "address", icon: <MapPin /> },
+              { label: "City", name: "city", icon: <MapPin /> },
+              { label: "Country", name: "country", icon: <MapPin /> },
             ].map(({ label, name, type = "text", icon }) => (
-              <div key={name} className="flex items-center space-x-4">
-                <span className="text-2xl w-10">{icon}</span>
-                <div className="flex-grow">
-                  <label
-                    htmlFor={name}
-                    className="block text-sm font-medium text-green-900 mb-2"
-                  >
-                    {label}
-                  </label>
-                  <input
-                    id={name}
-                    name={name}
-                    type={type}
-                    value={userData[name]}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
-                    className={`w-full px-4 py-2 border rounded-lg text-sm transition-all duration-300 ${
-                      isEditing
-                        ? "border-green-300 focus:ring-2 focus:ring-green-500 focus:outline-none"
-                        : "border-gray-200 bg-gray-100 cursor-not-allowed"
-                    }`}
-                  />
-                </div>
+              <div key={name}>
+                <label
+                  htmlFor={name}
+                  className="flex items-center text-[#013237] font-semibold"
+                >
+                  {icon}
+                  <span className="ml-2">{label}</span>
+                </label>
+                <input
+                  id={name}
+                  name={name}
+                  type={type}
+                  value={userData[name]}
+                  onChange={handleInputChange}
+                  disabled={!isEditing}
+                  className={`w-full px-4 py-2  rounded-lg text-sm transition-all duration-300 ${
+                    isEditing
+                      ? "focus:ring-2 focus:ring-green-500 focus:outline-none"
+                      : "cursor-not-allowed"
+                  }`}
+                />
               </div>
             ))}
           </form>
@@ -119,7 +134,14 @@ function ProfileDashboard() {
       )}
 
       {/* Posts Tab */}
-      {activeTab === "posts" && <PlantCardGrid />}
+      {activeTab === "posts" && (
+        <div>
+          <h2 className="text-4xl font-bold mb-6 text-[#013237] border-b-2 border-[#013237] pb-4">
+            My Plant Postcard Collection
+          </h2>
+          <PlantCardGrid />
+        </div>
+      )}
     </div>
   );
 }

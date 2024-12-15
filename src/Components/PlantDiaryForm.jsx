@@ -1,54 +1,100 @@
-import React, { useState, useRef } from 'react';
-import { 
-  Leaf, 
-  Image, 
-  Paperclip, 
-  BookOpen, 
-  Save, 
-  Send, 
-  X 
-} from 'lucide-react';
+import  { useState, useRef } from "react";
+import { Leaf, Image,  BookOpen,  Send, X } from "lucide-react";
+import axios from "axios";
+const WEATHER_API = import.meta.env.VITE_WEATHERAPI_KEY;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const PlantDiaryBookForm = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedImages, setSelectedImages] = useState([]);
   const [formData, setFormData] = useState({
-    storyName: '',
-    story: '',
-    tags: '',
-    categories: [],
-    email: ''
+    plantName: "",
+    aboutPlant: "",
+    tags: "",
+    category: [],
+    contactEmail: "",
+    placeName: "",
+    latitude: null,
+    longitude: null,
+    image: [],
   });
   const fileInputRef = useRef(null);
+  const [locationError, setLocationError] = useState("");
 
-  const categories = [
-    "Succulents", "Herbs", "Trees", "Flowers", "Others"
-  ];
+  const categories = ["Succulents", 
+      "Herbs", 
+      "Trees", 
+      "Flowers", 
+      "Indoor Plants",
+      "Outdoor Plants",
+      "Medicinal Plants",
+      "Climbers",
+      "Creepers",
+      "Desert Plants",
+      "Shrubs",
+      "Grasses",
+      "Fruit Plants",
+      "Vegetable Plants",
+      "Tropical Plants",
+      "Evergreen Plants",
+      "Others"];
 
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
-    const newImages = files.map(file => URL.createObjectURL(file));
-    setSelectedImages(prev => [...prev, ...newImages]);
-  };
-
-  const removeImage = (index) => {
-    setSelectedImages(prev => prev.filter((_, i) => i !== index));
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
+    const newImages = files.map((file) => URL.createObjectURL(file));
+    setSelectedImages((prev) => [...prev, ...newImages]);
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      image: [...prev.image, ...files],
     }));
   };
 
-  const toggleCategory = (category) => {
-    setFormData(prev => ({
+  const removeImage = (index) => {
+    setSelectedImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleInputChange = async (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
       ...prev,
-      categories: prev.categories.includes(category)
-        ? prev.categories.filter(c => c !== category)
-        : [...prev.categories, category]
+      [name]: value,
+    }));
+    if (name === "placeName" && value.trim().length > 2) {
+      try {
+        const response = await axios.get(
+          `https://api.weatherapi.com/v1/search.json`,
+          {
+            params: {
+              key: `${WEATHER_API}`, // Replace with your API key
+              q: value,
+            },
+          }
+        );
+        if (response.data.length > 0) {
+          const { lat, lon } = response.data[0];
+          setFormData((prev) => ({
+            ...prev,
+            latitude: lat,
+            longitude: lon,
+          }));
+          setLocationError(""); // Clear any error if successful
+        } else {
+          setLocationError("No location found for the entered place name.");
+        }
+      } catch (error) {
+        setLocationError("Error fetching coordinates. Please try again.");
+        console.error("Error fetching coordinates:", error.message);
+      }
+    }
+  };
+
+  const toggleCategory = (category) => {
+    setFormData((prev) => ({
+      ...prev,
+      category: prev.category.includes(category)
+        ? prev.category.filter((c) => c !== category)
+        : [...prev.category, category],
     }));
   };
 
@@ -60,8 +106,44 @@ const PlantDiaryBookForm = () => {
     setCurrentPage(Math.max(currentPage - 1, 1));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formDataToSubmit = new FormData();
+      Object.keys(formData).forEach((key) => {
+        if (key === "image") {
+          formData.image.forEach((image) => {
+            formDataToSubmit.append("image", image);
+          });
+        } else {
+          formDataToSubmit.append(key, formData[key]);
+        }
+      });
+
+      const response = await axios.post(
+        `${API_BASE_URL}/plants/plant-posts`, 
+        formDataToSubmit,
+        { 
+          headers: 
+          { 
+            "Content-Type": "multipart/form-data" 
+          } ,
+          withCredentials: true, 
+        }
+      );
+
+      if (response.data.success) {
+        console.log("Diary submitted successfully:", response.data);
+      } else {
+        console.error("Error submitting diary:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Submission error:", error.message);
+    }
+  };
+
   const renderPage = () => {
-    switch(currentPage) {
+    switch (currentPage) {
       case 1:
         return (
           <div className="space-y-6">
@@ -69,7 +151,9 @@ const PlantDiaryBookForm = () => {
               <h2 className="text-3xl font-serif text-[#013237]">
                 Start Your Plant Diary
               </h2>
-              <p className="text-[#4CA771]">Share the story of your green companion</p>
+              <p className="text-[#4CA771]">
+                Share the story of your green companion
+              </p>
             </div>
 
             <div className="space-y-4">
@@ -79,8 +163,8 @@ const PlantDiaryBookForm = () => {
                 </label>
                 <input
                   type="text"
-                  name="storyName"
-                  value={formData.storyName}
+                  name="plantName"
+                  value={formData.plantName}
                   onChange={handleInputChange}
                   placeholder="e.g., My Jade Plant's Journey"
                   className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
@@ -91,7 +175,7 @@ const PlantDiaryBookForm = () => {
                 <label className="block text-xl font-serif text-[#013237] mb-2">
                   Upload Plant Photos
                 </label>
-                <div 
+                <div
                   onClick={() => fileInputRef.current.click()}
                   className="border-2 border-dashed border-[#4CA771] rounded-lg p-6 text-center cursor-pointer hover:bg-[#EAF9E7] transition-colors"
                 >
@@ -110,12 +194,12 @@ const PlantDiaryBookForm = () => {
                   <div className="flex flex-wrap gap-4 mt-4">
                     {selectedImages.map((image, index) => (
                       <div key={index} className="relative w-24 h-24 group">
-                        <img 
-                          src={image} 
-                          alt={`Plant ${index + 1}`} 
+                        <img
+                          src={image}
+                          alt={`Plant ${index + 1}`}
                           className="w-full h-full object-cover rounded-lg"
                         />
-                        <button 
+                        <button
                           onClick={() => removeImage(index)}
                           className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-all"
                         >
@@ -137,8 +221,8 @@ const PlantDiaryBookForm = () => {
                 Your Plant's Story
               </label>
               <textarea
-                name="story"
-                value={formData.story}
+                name="aboutPlant"
+                value={formData.aboutPlant}
                 onChange={handleInputChange}
                 rows="6"
                 placeholder="Tell us about your plant's journey, care tips, and special memories..."
@@ -172,9 +256,11 @@ const PlantDiaryBookForm = () => {
                     onClick={() => toggleCategory(category)}
                     className={`
                       px-4 py-2 rounded-full text-sm transition-all
-                      ${formData.categories.includes(category) 
-                        ? 'bg-[#4CA771] text-white' 
-                        : 'bg-[#EAF9E7] text-[#013237] border border-[#4CA771]'}
+                      ${
+                        formData.category.includes(category)
+                          ? "bg-[#4CA771] text-white"
+                          : "bg-[#EAF9E7] text-[#013237] border border-[#4CA771]"
+                      }
                     `}
                   >
                     {category}
@@ -193,13 +279,30 @@ const PlantDiaryBookForm = () => {
               </label>
               <input
                 type="email"
-                name="email"
-                value={formData.email}
+                name="contactEmail"
+                value={formData.contactEmail}
                 onChange={handleInputChange}
                 placeholder="example@plantdiaries.com"
                 className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
               />
             </div>
+
+            <div>
+                <label className="block text-xl font-serif text-[#013237] mb-2">
+                  Place Name
+                </label>
+                <input
+                  type="text"
+                  name="placeName"
+                  value={formData.placeName}
+                  onChange={handleInputChange}
+                  placeholder="Enter the place name"
+                  className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
+                />
+                {locationError && (
+                  <p className="text-red-500 text-sm mt-2">{locationError}</p>
+                )}
+              </div>
 
             <div className="text-center">
               <p className="text-[#013237] mb-4">
@@ -208,6 +311,7 @@ const PlantDiaryBookForm = () => {
               <div className="flex justify-center space-x-4">
                 <button
                   type="submit"
+                  onClick={handleSubmit}
                   className="bg-[#4CA771] text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-[#3A8C5A] transition-colors"
                 >
                   <Send className="w-5 h-5" /> Publish Diary
@@ -240,7 +344,7 @@ const PlantDiaryBookForm = () => {
                 onClick={() => setCurrentPage(page)}
                 className={`
                   w-3 h-3 rounded-full transition-all
-                  ${currentPage === page ? 'bg-[#4CA771]' : 'bg-[#EAF9E7]/50'}
+                  ${currentPage === page ? "bg-[#4CA771]" : "bg-[#EAF9E7]/50"}
                 `}
               />
             ))}
@@ -250,9 +354,7 @@ const PlantDiaryBookForm = () => {
         {/* Right Page (Form Content) */}
         <div className="w-1/2 p-12 relative">
           <form className="h-full flex flex-col justify-between">
-            <div>
-              {renderPage()}
-            </div>
+            <div>{renderPage()}</div>
 
             <div className="flex justify-between mt-6">
               {currentPage > 1 && (

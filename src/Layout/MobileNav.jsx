@@ -128,13 +128,13 @@ const MobileNav = () => {
                 </button>
                 {isDropdownOpen && (
                   <div className="flex flex-col space-y-2 mt-2">
-                    {/* <Link
-                      to="/plant-diary-form"
+                    <Link
+                      to="/profile"
                       className="bg-[#4CA771] text-white px-4 py-3 rounded-lg hover:bg-[#3A8C5A] transition text-center w-full text-xl"
                       onClick={toggleMenu}
                     >
-                      Add Plant Post
-                    </Link> */}
+                      Profile
+                    </Link>
                     <button
                       onClick={handleLogout}
                       className="bg-[#4CA771] text-white px-4 py-3 rounded-lg hover:bg-[#3A8C5A] transition text-center w-full text-xl"
