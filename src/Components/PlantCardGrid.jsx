@@ -36,10 +36,12 @@ const PlantCardGrid = () => {
   // ];
 
   const [plantCards, setPlantCards] = useState([]);
+  const [loading,setLoading]=  useState()
 
   useEffect(() => {
     const fetchAllPost = async () => {
       try {
+        setLoading(true);
         const res = await getAllPost();
         if (res) {
           console.log(res);
@@ -48,10 +50,29 @@ const PlantCardGrid = () => {
       } catch (error) {
         console.log(error);
       }
+      finally {
+        setLoading(false);
+      }
     };
     fetchAllPost();
   }, []);
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Loading plants...</p>
+      </div>
+    );
+  }
 
+  if (plantCards.length === 0) {
+    return (
+      <div className="no-plants">
+        <img src="empty-illustration.png" alt="No plants found" />
+        <p>No plants available. Start documenting your plants now!</p>
+      </div>
+    );
+  }
   return (
     <div className="w-full px-4 py-8 bg-[#EAF7EE]">
       <div className="container mx-auto">

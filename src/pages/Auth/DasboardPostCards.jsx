@@ -4,6 +4,7 @@ import { Edit, Trash2 } from "lucide-react";
 
 const DasboardPostCards = () => {
   const [userPosts, setUserPosts] = useState([]);
+  const [loading,setLoading]=  useState()
 
   // Handle post deletion
   const handleDeletePost = async () => {
@@ -21,12 +22,16 @@ const DasboardPostCards = () => {
   useEffect(() => {
     const fetchUserPosts = async () => {
       try {
+        setLoading(true)
         const response = await getPlantPostByUser();
         setUserPosts(response || []);
         console.log(response);
       } catch (err) {
         console.error("Error fetching posts:", err);
         setUserPosts([]);
+      }
+      finally{
+        setLoading(false)
       }
     };
 
@@ -36,6 +41,24 @@ const DasboardPostCards = () => {
     console.log("Edit post:", post);
     // Add further logic for editing if needed
   };
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Loading your documentry...</p>
+      </div>
+    );
+  }
+
+  if (userPosts.length === 0) {
+    return (
+      <div className="no-plants">
+        <img src="empty-illustration.png" alt="No plants found" />
+        <p>No plants available. Start documenting your plants now!</p>
+      </div>
+    );
+  }
   return (
     <div className="w-full max-w-4xl">
       <h2 className="text-4xl font-bold mb-6 text-[#013237] border-b-2 border-[#013237] pb-4">
