@@ -1,7 +1,15 @@
-import React, { useState, useEffect } from "react";
-import PlantCardGrid from "../../Components/PlantCardGrid";
+import { useState, useEffect } from "react";
 import { getUserData } from "../../apis/user.api";
-import { Flower, Mail, MapPin, Pencil, Save, UserCircle } from "lucide-react";
+import {
+  Flower,
+  Mail,
+  MapPin,
+  Pencil,
+  Save,
+  UserCircle,
+} from "lucide-react";
+import DasboardPostCards from "./DasboardPostCards";
+
 
 function ProfileDashboard() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -14,7 +22,6 @@ function ProfileDashboard() {
     city: "",
     country: "",
   });
-
   // Fetch user data when the component mounts
   useEffect(() => {
     const fetchUserData = async () => {
@@ -33,12 +40,7 @@ function ProfileDashboard() {
     fetchUserData();
   }, []);
 
-  // Handle profile editing submission (if needed)
-  const handleProfileSubmit = async (e) => {
-    e.preventDefault();
-    setIsEditing(false);
-    // Submit logic (if needed in the future)
-  };
+ 
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -48,6 +50,7 @@ function ProfileDashboard() {
       [name]: value,
     }));
   };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br font-serif from-green-50 via-transparent to-green-100 flex flex-col items-center p-6">
@@ -74,7 +77,7 @@ function ProfileDashboard() {
           <Flower className="inline-block mr-2" /> My Plant Postcards
         </button>
       </div>
-      {/* bg-[#4CA771] */}
+
       {/* Profile Tab */}
       {activeTab === "profile" && (
         <div className="w-full max-w-2xl bg-[#EAF9E7] backdrop-blur-sm rounded-xl shadow-lg p-8">
@@ -88,7 +91,7 @@ function ProfileDashboard() {
             </button>
           </h2>
 
-          <form onSubmit={handleProfileSubmit} className="space-y-3">
+          <form className="space-y-3">
             {[
               { label: "Full Name", name: "name", icon: <UserCircle /> },
               {
@@ -107,21 +110,17 @@ function ProfileDashboard() {
               { label: "Country", name: "country", icon: <MapPin /> },
             ].map(({ label, name, type = "text", icon }) => (
               <div key={name}>
-                <label
-                  htmlFor={name}
-                  className="flex items-center text-[#013237] font-semibold"
-                >
+                <label className="flex items-center text-[#013237] font-semibold">
                   {icon}
                   <span className="ml-2">{label}</span>
                 </label>
                 <input
-                  id={name}
                   name={name}
                   type={type}
                   value={userData[name]}
                   onChange={handleInputChange}
                   disabled={!isEditing}
-                  className={`w-full px-4 py-2  rounded-lg text-sm transition-all duration-300 ${
+                  className={`w-full px-4 py-2 rounded-lg text-sm transition-all duration-300 ${
                     isEditing
                       ? "focus:ring-2 focus:ring-green-500 focus:outline-none"
                       : "cursor-not-allowed"
@@ -135,12 +134,7 @@ function ProfileDashboard() {
 
       {/* Posts Tab */}
       {activeTab === "posts" && (
-        <div>
-          <h2 className="text-4xl font-bold mb-6 text-[#013237] border-b-2 border-[#013237] pb-4">
-            My Plant Postcard Collection
-          </h2>
-          <PlantCardGrid />
-        </div>
+         <DasboardPostCards/>
       )}
     </div>
   );

@@ -27,7 +27,7 @@ const Login = () => {
       
     if (response.success) {
       const { userId, isAccountVerified } = response;
-      sessionStorage.setItem("userId", userId);
+      localStorage.setItem("userId", userId);
       if (!isAccountVerified) {
         const otpResponse = await verifyEmailAfterLogin(userId);
         if (otpResponse.success) {

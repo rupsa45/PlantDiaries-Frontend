@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
-import { Search, Menu, X, Leaf } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Search, Menu, X} from "lucide-react";
+import { Link} from "react-router-dom";
 import { getUserData, logout } from "../apis/user.api";
 
 const MobileNav = () => {
@@ -8,7 +8,6 @@ const MobileNav = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -25,7 +24,7 @@ const MobileNav = () => {
         const response = await getUserData();
         if (response && response.name) {
           setUser(response);
-          console.log("User state after update: ", response);
+          //console.log("User state after update: ", response);
         } else {
           setUser(null);
         }
@@ -42,7 +41,6 @@ const MobileNav = () => {
     try {
       const response = await logout();
       setUser(null);
-      console.log("Logout successful");
     } catch (error) {
       console.error("Error during logout:", error);
     }
@@ -99,7 +97,7 @@ const MobileNav = () => {
               to="/plant-diary-form"
               className="hover:text-[#4CA771] transition text-xl"
             >
-              Add Plant Post
+              Document Your Plant
             </Link>
           )}
 

@@ -34,7 +34,7 @@ const VerifyAccount = () => {
       setErrorMessage("Please enter a valid 6-digit OTP.");
       return;
     }
-    const userId = sessionStorage.getItem("userId");
+    const userId = localStorage.getItem("userId");
     try {
       const response = await verifyAccount(userId, otpCode) // Pass userId to the backend
       console.log(userId,otpCode);

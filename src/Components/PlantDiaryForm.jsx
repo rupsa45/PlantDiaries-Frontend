@@ -1,8 +1,8 @@
 import  { useState, useRef } from "react";
 import { Leaf, Image,  BookOpen,  Send, X } from "lucide-react";
 import axios from "axios";
+import { createPlantPost } from "../apis/post.api";
 const WEATHER_API = import.meta.env.VITE_WEATHERAPI_KEY;
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const PlantDiaryBookForm = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -11,7 +11,7 @@ const PlantDiaryBookForm = () => {
     plantName: "",
     aboutPlant: "",
     tags: "",
-    category: [],
+    // category: [],
     contactEmail: "",
     placeName: "",
     latitude: null,
@@ -21,23 +21,23 @@ const PlantDiaryBookForm = () => {
   const fileInputRef = useRef(null);
   const [locationError, setLocationError] = useState("");
 
-  const categories = ["Succulents", 
-      "Herbs", 
-      "Trees", 
-      "Flowers", 
-      "Indoor Plants",
-      "Outdoor Plants",
-      "Medicinal Plants",
-      "Climbers",
-      "Creepers",
-      "Desert Plants",
-      "Shrubs",
-      "Grasses",
-      "Fruit Plants",
-      "Vegetable Plants",
-      "Tropical Plants",
-      "Evergreen Plants",
-      "Others"];
+  // const categories = ["Succulents", 
+  //     "Herbs", 
+  //     "Trees", 
+  //     "Flowers", 
+  //     "Indoor Plants",
+  //     "Outdoor Plants",
+  //     "Medicinal Plants",
+  //     "Climbers",
+  //     "Creepers",
+  //     "Desert Plants",
+  //     "Shrubs",
+  //     "Grasses",
+  //     "Fruit Plants",
+  //     "Vegetable Plants",
+  //     "Tropical Plants",
+  //     "Evergreen Plants",
+  //     "Others"];
 
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
@@ -89,14 +89,14 @@ const PlantDiaryBookForm = () => {
     }
   };
 
-  const toggleCategory = (category) => {
-    setFormData((prev) => ({
-      ...prev,
-      category: prev.category.includes(category)
-        ? prev.category.filter((c) => c !== category)
-        : [...prev.category, category],
-    }));
-  };
+  // const toggleCategory = (category) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     category: prev.category.includes(category)
+  //       ? prev.category.filter((c) => c !== category)
+  //       : [...prev.category, category],
+  //   }));
+  // };
 
   const nextPage = () => {
     setCurrentPage(Math.min(currentPage + 1, 3));
@@ -105,40 +105,12 @@ const PlantDiaryBookForm = () => {
   const prevPage = () => {
     setCurrentPage(Math.max(currentPage - 1, 1));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formDataToSubmit = new FormData();
-      Object.keys(formData).forEach((key) => {
-        if (key === "image") {
-          formData.image.forEach((image) => {
-            formDataToSubmit.append("image", image);
-          });
-        } else {
-          formDataToSubmit.append(key, formData[key]);
-        }
-      });
-
-      const response = await axios.post(
-        `${API_BASE_URL}/plants/plant-posts`, 
-        formDataToSubmit,
-        { 
-          headers: 
-          { 
-            "Content-Type": "multipart/form-data" 
-          } ,
-          withCredentials: true, 
-        }
-      );
-
-      if (response.data.success) {
-        console.log("Diary submitted successfully:", response.data);
-      } else {
-        console.error("Error submitting diary:", response.data.message);
-      }
+      await createPlantPost(formData);
     } catch (error) {
-      console.error("Submission error:", error.message);
+      console.log("Occured while creating Post : " + error);
     }
   };
 
@@ -166,6 +138,7 @@ const PlantDiaryBookForm = () => {
                   name="plantName"
                   value={formData.plantName}
                   onChange={handleInputChange}
+                  required
                   placeholder="e.g., My Jade Plant's Journey"
                   className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
                 />
@@ -185,6 +158,7 @@ const PlantDiaryBookForm = () => {
                     multiple
                     onChange={handleImageUpload}
                     className="hidden"
+                    required
                   />
                   <Image className="mx-auto w-12 h-12 text-[#4CA771] mb-4" />
                   <p className="text-[#013237]">Click or drag photos here</p>
@@ -225,6 +199,7 @@ const PlantDiaryBookForm = () => {
                 value={formData.aboutPlant}
                 onChange={handleInputChange}
                 rows="6"
+                required
                 placeholder="Tell us about your plant's journey, care tips, and special memories..."
                 className="w-full px-4 py-3 border-2 border-[#4CA771] rounded-lg bg-transparent text-[#013237] focus:outline-none"
               ></textarea>
@@ -239,12 +214,29 @@ const PlantDiaryBookForm = () => {
                 name="tags"
                 value={formData.tags}
                 onChange={handleInputChange}
+                required
                 placeholder="#succulents #indoorplants #plantlove"
                 className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
               />
             </div>
 
             <div>
+                <label className="block text-xl font-serif text-[#013237] mb-2">
+                  Place Name
+                </label>
+                <input
+                  type="text"
+                  name="placeName"
+                  value={formData.placeName}
+                  onChange={handleInputChange}
+                  placeholder="Enter the place name"
+                  className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
+                />
+                {locationError && (
+                  <p className="text-red-500 text-sm mt-2">{locationError}</p>
+                )}
+              </div>
+            {/* <div>
               <label className="block text-xl font-serif text-[#013237] mb-2">
                 Select Categories
               </label>
@@ -267,7 +259,7 @@ const PlantDiaryBookForm = () => {
                   </button>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
         );
       case 3:
@@ -282,27 +274,12 @@ const PlantDiaryBookForm = () => {
                 name="contactEmail"
                 value={formData.contactEmail}
                 onChange={handleInputChange}
+                required
                 placeholder="example@plantdiaries.com"
                 className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
               />
             </div>
 
-            <div>
-                <label className="block text-xl font-serif text-[#013237] mb-2">
-                  Place Name
-                </label>
-                <input
-                  type="text"
-                  name="placeName"
-                  value={formData.placeName}
-                  onChange={handleInputChange}
-                  placeholder="Enter the place name"
-                  className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
-                />
-                {locationError && (
-                  <p className="text-red-500 text-sm mt-2">{locationError}</p>
-                )}
-              </div>
 
             <div className="text-center">
               <p className="text-[#013237] mb-4">

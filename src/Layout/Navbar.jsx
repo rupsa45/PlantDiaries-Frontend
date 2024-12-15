@@ -19,7 +19,7 @@ const Navbar = () => {
         const response = await getUserData();
         if (response && response.name) {
           setUser(response);
-          console.log("User state after update: ", response);
+          //console.log("User state after update: ", response);
         } else {
           setUser(null);
         }
@@ -69,7 +69,7 @@ const Navbar = () => {
         </Link>
 
         {/* Navigation Links */}
-        <nav className="hidden md:flex space-x-8 font-semibold font-mono text-slate-600">
+        <nav className="hidden md:flex space-x-8 font-mono text-slate-600">
           <Link to="/" className="hover:text-[#4CA771] transition">
             Home
           </Link>
@@ -81,7 +81,7 @@ const Navbar = () => {
               to="/plant-diary-form"
               className="hover:text-[#4CA771] transition"
             >
-              Add Plant Post
+              Document Your Plant
             </Link>
           )}
         </nav>
