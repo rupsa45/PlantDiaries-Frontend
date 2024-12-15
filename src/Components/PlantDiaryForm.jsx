@@ -2,6 +2,7 @@ import  { useState, useRef } from "react";
 import { Leaf, Image,  BookOpen,  Send, X } from "lucide-react";
 import axios from "axios";
 import { createPlantPost } from "../apis/post.api";
+import {Link} from 'react-router-dom'
 const WEATHER_API = import.meta.env.VITE_WEATHERAPI_KEY;
 
 const PlantDiaryBookForm = () => {
@@ -291,7 +292,8 @@ const PlantDiaryBookForm = () => {
                   onClick={handleSubmit}
                   className="bg-[#4CA771] text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-[#3A8C5A] transition-colors"
                 >
-                  <Send className="w-5 h-5" /> Publish Diary
+                  <Send className="w-5 h-5" /> 
+                  <Link to="/discover">Publish Diary</Link>
                 </button>
               </div>
             </div>
