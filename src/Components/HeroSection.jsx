@@ -23,7 +23,9 @@ const HeroSection = () => {
           </p>
           <div className="flex justify-center space-x-4">
             <button className="bg-[#4CA771] text-white px-8 py-3 rounded-full hover:bg-[#3A8C5A] transition-colors">
+              <Link to="/plant-diary-form">
               Start Your Diary
+              </Link>
             </button>
             <button className="border-2 border-[#EAF9E7] text-[#EAF9E7] px-8 py-3 rounded-full hover:bg-[#EAF9E7] hover:text-[#013237] transition-colors">
              <Link to='/discover'>

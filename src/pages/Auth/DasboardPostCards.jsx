@@ -1,5 +1,5 @@
 import  { useEffect, useState } from "react";
-import { getPlantPostById } from "../../apis/post.api";
+import { getPlantPostByUser } from "../../apis/post.api";
 import { Edit, Trash2 } from "lucide-react";
 
 const DasboardPostCards = () => {
@@ -21,7 +21,7 @@ const DasboardPostCards = () => {
   useEffect(() => {
     const fetchUserPosts = async () => {
       try {
-        const response = await getPlantPostById();
+        const response = await getPlantPostByUser();
         setUserPosts(response || []);
         console.log(response);
       } catch (err) {

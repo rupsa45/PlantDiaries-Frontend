@@ -32,7 +32,7 @@ export const createPlantPost = async (formData) => {
   }
 };
 
-export const getPlantPostById = async () => {
+export const getPlantPostByUser = async () => {
   try {
     const response = await axios.get(
       `${API_BASE_URL}/plants/plant-posts`,

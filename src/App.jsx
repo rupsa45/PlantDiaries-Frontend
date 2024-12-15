@@ -15,12 +15,12 @@ const App = () => {
   return (
     <>
       <Routes>
+        <Route exact path="/" element={<HomePage/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<CreateAccount/>} />
         <Route path="/forgot-otp" element={<ForgetOtp/>}/>
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/verify-account" element={<VerifyAccount/>}/>
-        <Route path="/" element={<HomePage/>}/>
         <Route path="/plant-diary-form" element={<AddInputPage/>}/>
         <Route path="/discover" element={<DiscoverPage/>}/>
         <Route path="/detail" element={<DetailsPage/>}/>

@@ -2,7 +2,7 @@ import { MapPin, Share2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const PlantCard = ({
-  imageSrc,
+  image,
   plantName,
   placeName,
   aboutPlant,
@@ -22,7 +22,6 @@ const PlantCard = ({
         })
         .catch(console.error);
     } else {
-      // Fallback for browsers without native share
       navigator.clipboard
         .writeText(window.location.href)
         .then(() => alert("Link copied to clipboard!"))
@@ -40,7 +39,7 @@ const PlantCard = ({
     >
       <div className="relative h-40 bg-neutral-300 rounded-t-lg overflow-hidden">
         <img
-          src={imageSrc}
+          src={image}
           alt={plantName}
           className="w-full h-full object-cover rounded-t-lg 
             transform hover:scale-110 transition-transform duration-300"
