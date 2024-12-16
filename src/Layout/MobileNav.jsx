@@ -1,12 +1,11 @@
 import { useState,useEffect } from "react";
-import { Search, Menu, X} from "lucide-react";
+import { Menu, X, CircleUserRound,  LogOut, User2Icon} from "lucide-react";
 import { Link} from "react-router-dom";
 import { getUserData, logout } from "../apis/user.api";
 
 const MobileNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const [user, setUser] = useState(null);
 
   const toggleMenu = () => {
@@ -45,17 +44,9 @@ const MobileNav = () => {
       console.error("Error during logout:", error);
     }
   };
-  const handleSearchSubmit = async (e) => {
-    e.preventDefault();
-    // Add logic to fetch search results based on `searchQuery`
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
 
   return (
-    <div className="bg-[#EAF7EE] text-slate-900 shadow-lg">
+    <div className="bg-[#c4e7cf] text-slate-900 shadow-lg">
       <div className="container mx-auto flex justify-between items-center py-4 px-6 mobile-nav">
         {/* Logo Section */}
         <Link to="/" className="text-2xl font-bold tracking-wide">
@@ -63,7 +54,7 @@ const MobileNav = () => {
         </Link>
 
         {/* Menu Toggle Button */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 ">
           <button onClick={toggleMenu} className="focus:outline-none">
             {isMenuOpen ? (
               <X className="h-8 w-8" />
@@ -75,19 +66,19 @@ const MobileNav = () => {
       </div>
 
       {isMenuOpen && (
-        <div className="absolute z-20 w-full bg-[#EAF7EE] shadow-lg">
+        <div className="absolute z-20 w-full bg-[#c4e7cf] shadow-lg">
           <nav className="flex flex-col space-y-4 p-6">
             {/* Navigation Links */}
             <Link
               to="/"
-              className="hover:text-[#4CA771] transition text-xl"
+              className="hover:text-[#4CA771] transition text-xl font-serif"
               onClick={toggleMenu}
             >
               Home
             </Link>
             <Link
               to="/discover"
-              className="hover:text-[#4CA771] transition text-xl"
+              className="hover:text-[#4CA771] transition text-xl font-serif"
               onClick={toggleMenu}
             >
               Discover
@@ -95,48 +86,38 @@ const MobileNav = () => {
             {user && (
             <Link
               to="/plant-diary-form"
-              className="hover:text-[#4CA771] transition text-xl"
+              className="hover:text-[#4CA771] transition text-xl font-serif"
             >
               Document Your Plant
             </Link>
           )}
-
-            {/* Search Bar */}
-            <div className="relative mt-4">
-              <form onSubmit={handleSearchSubmit} className="relative">
-                <input
-                  type="text"
-                  placeholder="Search plants..."
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                  className="bg-white text-gray-700 rounded-lg pl-10 pr-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#4CA771]"
-                />
-                <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
-              </form>
-            </div>
 
             {/* Conditional Rendering Based on Authentication */}
             {user ? (
               <div>
                 <button
                   onClick={toggleDropdown}
-                  className="bg-[#4CA771] text-white px-4 py-3 rounded-lg hover:bg-[#3A8C5A] transition text-center w-full text-xl"
+                  className="bg-[#4CA771]/10 text-[#4CA771] flex gap-1  px-4 py-3 rounded-lg hover:bg-[#9ae1b6] transition text-center w-full text-xl"
                 >
+                  <CircleUserRound />
                   {user.name || "Profile"}
                 </button>
                 {isDropdownOpen && (
                   <div className="flex flex-col space-y-2 mt-2">
+
                     <Link
                       to="/profile"
-                      className="bg-[#4CA771] text-white px-4 py-3 rounded-lg hover:bg-[#3A8C5A] transition text-center w-full text-xl"
+                      className="bg-[#4CA771]/10 text-[#4CA771] flex gap-1 px-4 py-3 rounded-lg hover:bg-[#9ae1b6] transition text-center w-full text-xl"
                       onClick={toggleMenu}
                     >
+                      <User2Icon/>
                       Profile
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="bg-[#4CA771] text-white px-4 py-3 rounded-lg hover:bg-[#3A8C5A] transition text-center w-full text-xl"
+                      className="bg-[#4CA771]/10 text-[#4CA771]  flex gap-1 px-4 py-3 rounded-lg hover:bg-[#9ae1b6] transition text-center w-full text-xl"
                     >
+                      <LogOut/>
                       Logout
                     </button>
                   </div>
@@ -145,7 +126,7 @@ const MobileNav = () => {
             ) : (
               <Link
                 to="/login"
-                className="bg-[#4CA771] text-white px-4 py-3 rounded-lg hover:bg-[#3A8C5A] transition text-center text-xl"
+                className="bg-[#4CA771]/10 text-[#4CA771] px-4 py-3 flex gap-1 rounded-lg hover:bg-[#3A8C5A] transition text-center text-xl"
                 onClick={toggleMenu}
               >
                 Get Started

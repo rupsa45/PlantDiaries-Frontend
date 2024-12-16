@@ -1,16 +1,13 @@
-import { Search, User2 } from "lucide-react";
+import {  CircleUserRound, User2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import MobileNav from "./MobileNav";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LogOut, Leaf } from "lucide-react";
 import { getUserData, logout } from "../apis/user.api";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // State for search query
-  const [searchResults, setSearchResults] = useState([]); // State for search results
   const [user, setUser] = useState(null); // State to hold user data
-  const navigate = useNavigate(); // Initialize the navigate function
 
   // Fetch user data
   useEffect(() => {
@@ -47,20 +44,8 @@ const Navbar = () => {
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
-
-  // Handle search input change
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  // Handle search submission
-  const handleSearchSubmit = async (e) => {
-    e.preventDefault();
-    // Add logic to fetch search results based on searchQuery
-  };
-
   return (
-    <div className="bg-[#EAF7EE] text-slate-900 shadow-lg">
+    <div className="bg-[#c4e7cf] text-slate-900 shadow-xl">
       <div className="hidden container mx-auto md:flex justify-between items-center py-4 px-6">
         {/* Logo Section */}
         <Link to="/" className="flex text-2xl font-serif font-bold items-center space-x-4">
@@ -69,7 +54,7 @@ const Navbar = () => {
         </Link>
 
         {/* Navigation Links */}
-        <nav className="hidden md:flex space-x-8 font-mono text-slate-600">
+        <nav className="hidden md:flex space-x-8 font-serif text-slate-600">
           <Link to="/" className="hover:text-[#4CA771] transition">
             Home
           </Link>
@@ -88,32 +73,21 @@ const Navbar = () => {
 
         {/* Right Section */}
         <div className="hidden md:flex items-center space-x-4">
-          {/* Search Input */}
-          <form onSubmit={handleSearchSubmit} className="relative">
-            <input
-              type="text"
-              placeholder="Search plants by location..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-              className="bg-white text-gray-700 rounded-lg pl-10 pr-4 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-[#4CA771]"
-            />
-            <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
-          </form>
-
           {/* Conditional Rendering Based on User Authentication */}
           {user ? (
             <div className="relative">
               <button
                 onClick={toggleDropdown}
-                className="bg-[#4CA771] text-white px-4 py-2 rounded-lg hover:bg-[#3A8C5A] transition"
+                className="bg-[#4CA771]/10 text-[#4CA771] flex px-4 py-2 rounded-lg hover:bg-[#9ae1b6] transition"
               >
+                <CircleUserRound />
                 {user.name || "Profile"} {/* Show user's name if available */}
               </button>
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 bg-[#91d7a6] shadow-lg rounded-md z-50">
                   <Link
                     to="/profile"
-                    className="flex gap-1 px-4 py-2 text-gray-700 hover:bg-[#D7F1DE]"
+                    className="flex gap-1 px-4 py-2 text-gray-700 hover:bg-[#bef1cc]"
                   >
                     <User2 />
                     Profile
@@ -121,7 +95,7 @@ const Navbar = () => {
                   <button onClick={handleLogout}>
                     <Link
                       to="/login"
-                      className="w-full text-left px-4 py-2 flex gap-1 text-gray-700 hover:bg-[#D7F1DE]"
+                      className="w-full text-left px-4 py-2 flex gap-1 text-gray-700 hover:bg-[#bbe8c7]"
                     >
                       <LogOut />
                       Logout
@@ -133,7 +107,7 @@ const Navbar = () => {
           ) : (
             <Link
               to="/login"
-              className="bg-[#4CA771] text-white px-4 py-2 rounded-lg hover:bg-[#3A8C5A] transition"
+              className="bg-[#4CA771]/10 text-[#4CA771] px-4 py-2 rounded-lg hover:bg-[#3A8C5A] transition"
             >
               Get Started
             </Link>
