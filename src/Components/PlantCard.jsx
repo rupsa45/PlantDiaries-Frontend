@@ -7,7 +7,7 @@ const PlantCard = ({
   placeName,
   aboutPlant,
   tags = [],
-  postedDate,
+  createdAt,
   onShare,
 }) => {
   const handleShare = () => {
@@ -80,7 +80,7 @@ const PlantCard = ({
         </div>
       </div>
       <p className="text-xs text-gray-500 mt-2 text-right">
-        Posted on: {postedDate}
+        Posted on: {new Date(createdAt).toLocaleDateString()}
       </p>
     </div>
   );

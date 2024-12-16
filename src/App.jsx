@@ -9,11 +9,13 @@ import DetailsPage from "./pages/DetailsPage";
 import ProfilePage from "./pages/ProfilePage";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import VerifyAccount from "./pages/Auth/VerifyAccount";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
     <>
+      <ToastContainer />
       <Routes>
         <Route exact path="/" element={<HomePage/>}/>
         <Route path="/login" element={<Login />} />

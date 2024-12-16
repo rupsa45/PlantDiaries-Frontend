@@ -1,11 +1,12 @@
-import  { useState, useRef } from "react";
-import { Leaf, Image,  BookOpen,  Send, X } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Leaf, Image, BookOpen, Send, X } from "lucide-react";
 import axios from "axios";
 import { createPlantPost } from "../apis/post.api";
-import {Link} from 'react-router-dom'
 const WEATHER_API = import.meta.env.VITE_WEATHERAPI_KEY;
+import { toast } from "react-toastify";
 
 const PlantDiaryBookForm = () => {
+  const [formIsValid, setFormIsValid] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedImages, setSelectedImages] = useState([]);
   const [formData, setFormData] = useState({
@@ -22,10 +23,10 @@ const PlantDiaryBookForm = () => {
   const fileInputRef = useRef(null);
   const [locationError, setLocationError] = useState("");
 
-  // const categories = ["Succulents", 
-  //     "Herbs", 
-  //     "Trees", 
-  //     "Flowers", 
+  // const categories = ["Succulents",
+  //     "Herbs",
+  //     "Trees",
+  //     "Flowers",
   //     "Indoor Plants",
   //     "Outdoor Plants",
   //     "Medicinal Plants",
@@ -39,6 +40,22 @@ const PlantDiaryBookForm = () => {
   //     "Tropical Plants",
   //     "Evergreen Plants",
   //     "Others"];
+
+  const validateForm = () => {
+    const { plantName, aboutPlant, tags, contactEmail, placeName, image } = formData;
+    const isValid =
+      plantName.trim() &&
+      aboutPlant.trim() &&
+      tags.trim() &&
+      contactEmail.trim() &&
+      placeName.trim() &&
+      image.length > 0 ;
+    setFormIsValid(isValid);
+  };
+
+  useEffect(() => {
+    validateForm();
+  }, [formData]);
 
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
@@ -57,10 +74,7 @@ const PlantDiaryBookForm = () => {
   const handleInputChange = async (e) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (name === "placeName" && value.trim().length > 2) {
       try {
         const response = await axios.get(
@@ -99,19 +113,26 @@ const PlantDiaryBookForm = () => {
   //   }));
   // };
 
-  const nextPage = () => {
-    setCurrentPage(Math.min(currentPage + 1, 3));
-  };
-
-  const prevPage = () => {
-    setCurrentPage(Math.max(currentPage - 1, 1));
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createPlantPost(formData);
+      const res = await createPlantPost(formData);
+      if (res) {
+        toast.success("Diary submitted successfully🌱")
+        setFormData({
+          plantName: "",
+          aboutPlant: "",
+          tags: "",
+          contactEmail: "",
+          placeName: "",
+          latitude: null,
+          longitude: null,
+          image: []
+        });
+      }
     } catch (error) {
       console.log("Occured while creating Post : " + error);
+      toast.success("Occured while creating Post!😔")
     }
   };
 
@@ -139,9 +160,9 @@ const PlantDiaryBookForm = () => {
                   name="plantName"
                   value={formData.plantName}
                   onChange={handleInputChange}
-                  required
                   placeholder="e.g., My Jade Plant's Journey"
                   className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
+                  required
                 />
               </div>
 
@@ -173,6 +194,7 @@ const PlantDiaryBookForm = () => {
                           src={image}
                           alt={`Plant ${index + 1}`}
                           className="w-full h-full object-cover rounded-lg"
+                          aria-required
                         />
                         <button
                           onClick={() => removeImage(index)}
@@ -200,9 +222,9 @@ const PlantDiaryBookForm = () => {
                 value={formData.aboutPlant}
                 onChange={handleInputChange}
                 rows="6"
-                required
                 placeholder="Tell us about your plant's journey, care tips, and special memories..."
                 className="w-full px-4 py-3 border-2 border-[#4CA771] rounded-lg bg-transparent text-[#013237] focus:outline-none"
+                required
               ></textarea>
             </div>
 
@@ -215,28 +237,29 @@ const PlantDiaryBookForm = () => {
                 name="tags"
                 value={formData.tags}
                 onChange={handleInputChange}
-                required
                 placeholder="#succulents #indoorplants #plantlove"
                 className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
+                required
               />
             </div>
 
             <div>
-                <label className="block text-xl font-serif text-[#013237] mb-2">
-                  Place Name
-                </label>
-                <input
-                  type="text"
-                  name="placeName"
-                  value={formData.placeName}
-                  onChange={handleInputChange}
-                  placeholder="Enter the place name"
-                  className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
-                />
-                {locationError && (
-                  <p className="text-red-500 text-sm mt-2">{locationError}</p>
-                )}
-              </div>
+              <label className="block text-xl font-serif text-[#013237] mb-2">
+                Place Name
+              </label>
+              <input
+                type="text"
+                name="placeName"
+                value={formData.placeName}
+                onChange={handleInputChange}
+                placeholder="Enter the place name"
+                className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
+                required
+              />
+              {locationError && (
+                <p className="text-red-500 text-sm mt-2">{locationError}</p>
+              )}
+            </div>
             {/* <div>
               <label className="block text-xl font-serif text-[#013237] mb-2">
                 Select Categories
@@ -275,12 +298,11 @@ const PlantDiaryBookForm = () => {
                 name="contactEmail"
                 value={formData.contactEmail}
                 onChange={handleInputChange}
-                required
                 placeholder="example@plantdiaries.com"
                 className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
+                required
               />
             </div>
-
 
             <div className="text-center">
               <p className="text-[#013237] mb-4">
@@ -290,10 +312,14 @@ const PlantDiaryBookForm = () => {
                 <button
                   type="submit"
                   onClick={handleSubmit}
-                  className="bg-[#4CA771] text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-[#3A8C5A] transition-colors"
+                  disabled={!formIsValid} // Disable button if form is invalid
+                  className={`px-6 py-3 rounded-lg flex items-center gap-2 ${
+                    formIsValid
+                      ? "bg-[#4CA771] text-white hover:bg-[#3A8C5A]"
+                      : "bg-gray-400 text-gray-200 cursor-not-allowed"
+                  } transition-colors`}
                 >
-                  <Send className="w-5 h-5" /> 
-                  <Link to="/discover">Publish Diary</Link>
+                  <Send className="w-5 h-5" />Publish Diary
                 </button>
               </div>
             </div>
@@ -306,41 +332,28 @@ const PlantDiaryBookForm = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#EAF9E7] to-[#C0E6BA] flex items-center justify-center p-4">
-      <div className="w-full max-w-4xl bg-white shadow-2xl rounded-2xl overflow-hidden flex">
-        {/* Left Page (Book Cover) */}
-        <div className="w-1/2 bg-[#013237] text-[#EAF9E7] p-12 flex flex-col justify-center">
-          <BookOpen className="w-24 h-24 text-[#4CA771] mx-auto mb-6" />
-          <h1 className="text-4xl font-serif text-center mb-4">
+      <div className="w-full max-w-4xl bg-white shadow-2xl rounded-2xl overflow-hidden flex flex-col lg:flex-row">
+        {/* Book Cover */}
+        <div className="w-full lg:w-1/2 bg-[#013237] text-[#EAF9E7] p-8 lg:p-12 flex flex-col justify-center">
+          <BookOpen className="w-20 h-20 text-[#4CA771] mx-auto mb-4" />
+          <h1 className="text-3xl lg:text-4xl font-serif text-center mb-2">
             Plant Diaries
           </h1>
-          <p className="text-center mb-8">
+          <p className="text-center mb-6">
             Your personal journal of green adventures
           </p>
-          <div className="flex items-center justify-center space-x-4">
-            {[1, 2, 3].map((page) => (
-              <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`
-                  w-3 h-3 rounded-full transition-all
-                  ${currentPage === page ? "bg-[#4CA771]" : "bg-[#EAF9E7]/50"}
-                `}
-              />
-            ))}
-          </div>
         </div>
 
-        {/* Right Page (Form Content) */}
-        <div className="w-1/2 p-12 relative">
-          <form className="h-full flex flex-col justify-between">
-            <div>{renderPage()}</div>
-
-            <div className="flex justify-between mt-6">
+        {/* Form Content */}
+        <div className="w-full lg:w-1/2 p-8 lg:p-12">
+          <form className="flex flex-col h-full" onSubmit={handleSubmit}>
+            {renderPage()}
+            <div className="mt-6 flex justify-between">
               {currentPage > 1 && (
                 <button
                   type="button"
-                  onClick={prevPage}
-                  className="text-[#013237] flex items-center gap-2 hover:text-[#4CA771] transition-colors"
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  className="flex items-center gap-2 text-[#013237] hover:text-[#4CA771]"
                 >
                   <Leaf className="w-5 h-5" /> Previous
                 </button>
@@ -348,8 +361,8 @@ const PlantDiaryBookForm = () => {
               {currentPage < 3 && (
                 <button
                   type="button"
-                  onClick={nextPage}
-                  className="ml-auto text-[#013237] flex items-center gap-2 hover:text-[#4CA771] transition-colors"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  className="ml-auto flex items-center gap-2 text-[#013237] hover:text-[#4CA771]"
                 >
                   Next <Leaf className="w-5 h-5" />
                 </button>

@@ -23,9 +23,7 @@ export const createPlantPost = async (formData) => {
     );
     if (response.data.success) {
       console.log("Diary submitted successfully:", response.data);
-    } else {
-      console.error("Error submitting diary:", response.data.message);
-    }
+    } 
     return response.data;
   } catch (error) {
     console.error("Submission error:", error.message);

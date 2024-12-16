@@ -1,37 +1,38 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getPlantPostByUser } from "../../apis/post.api";
 import { Edit, Trash2 } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const DasboardPostCards = () => {
   const [userPosts, setUserPosts] = useState([]);
-  const [loading,setLoading]=  useState()
-
+  const [loading, setLoading] = useState();
+  const { id } = useParams();
   // Handle post deletion
   const handleDeletePost = async () => {
-    // try {
-    //   await deletePlantPost(postId);
-    //   setUserPosts((prevPosts) =>
-    //     prevPosts.filter((post) => post.id !== postId)
-    //   );
-    // } catch (error) {
-    //   console.error("Error deleting post:", error);
-    // }
+    try {
+      await axios.delete(`/plants/plant-posts/${id}`, {
+        withCredentials: true,
+      });
+      navigate("/plant-posts"); // Redirect after deletion
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
   };
-  
+
   // Fetch posts
   useEffect(() => {
     const fetchUserPosts = async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         const response = await getPlantPostByUser();
         setUserPosts(response || []);
         console.log(response);
       } catch (err) {
         console.error("Error fetching posts:", err);
         setUserPosts([]);
-      }
-      finally{
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
     };
 
