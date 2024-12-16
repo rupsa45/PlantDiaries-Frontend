@@ -39,7 +39,7 @@ const CreateAccount = () => {
         formData.country
       );
       console.log("Full Response:", response); // Debugging
-      if (response.success) {
+      if (response) {
         navigate("/login");
       } else {
         throw new Error("Unexpected response format");

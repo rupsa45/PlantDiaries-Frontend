@@ -2,38 +2,6 @@ import { useEffect, useState } from "react";
 import PlantCard from "./PlantCard";
 import { getAllPost } from "../apis/post.api";
 const PlantCardGrid = () => {
-  // const plantCards = [
-  //   {
-  //     imageSrc:
-  //       "https://tools-api.webcrumbs.org/image-placeholder/300/160/nature/1",
-  //     plantName: "Exotic Rainforest Plant",
-  //     placeName: "Amazon Rainforest",
-  //     aboutPlant:
-  //       "A rare and beautiful plant species found deep in the heart of the Amazon, known for its unique adaptation strategies and vibrant coloration.",
-  //     tags: ["Rare Species", "Tropical"],
-  //     postedDate: "2024-01-15",
-  //   },
-  //   {
-  //     imageSrc:
-  //       "https://tools-api.webcrumbs.org/image-placeholder/300/160/nature/2",
-  //     plantName: "Desert Succulent",
-  //     placeName: "Atacama Desert",
-  //     aboutPlant:
-  //       "An incredible succulent that survives in one of the world's driest environments, showcasing nature's remarkable resilience and adaptation.",
-  //     tags: ["Drought Resistant", "Survival"],
-  //     postedDate: "2024-02-20",
-  //   },
-  //   {
-  //     imageSrc:
-  //       "https://tools-api.webcrumbs.org/image-placeholder/300/160/nature/3",
-  //     plantName: "Alpine Wildflower",
-  //     placeName: "Himalayan Highlands",
-  //     aboutPlant:
-  //       "A delicate yet sturdy wildflower that blooms at extreme altitudes, representing the incredible biodiversity of mountain ecosystems.",
-  //     tags: ["Mountain Flora", "Biodiversity"],
-  //     postedDate: "2024-03-10",
-  //   },
-  // ];
 
   const [plantCards, setPlantCards] = useState([]);
   const [loading,setLoading]=  useState()
@@ -44,7 +12,6 @@ const PlantCardGrid = () => {
         setLoading(true);
         const res = await getAllPost();
         if (res) {
-          console.log(res);
           setPlantCards(res);
         }
       } catch (error) {
@@ -68,7 +35,6 @@ const PlantCardGrid = () => {
   if (plantCards.length === 0) {
     return (
       <div className="no-plants">
-        <img src="empty-illustration.png" alt="No plants found" />
         <p>No plants available. Start documenting your plants now!</p>
       </div>
     );

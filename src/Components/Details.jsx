@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Leaf,
   MapPin,
   Calendar,
   User,
-  Tags,
   Mail,
   Globe,
   ArrowLeft,

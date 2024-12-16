@@ -8,6 +8,7 @@ const DasboardPostCards = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [loading, setLoading] = useState();
   const { id } = useParams();
+  const navigate = useNavigate();
   // Handle post deletion
   const handleDeletePost = async () => {
     try {
@@ -27,7 +28,6 @@ const DasboardPostCards = () => {
         setLoading(true);
         const response = await getPlantPostByUser();
         setUserPosts(response || []);
-        console.log(response);
       } catch (err) {
         console.error("Error fetching posts:", err);
         setUserPosts([]);
@@ -77,7 +77,6 @@ const DasboardPostCards = () => {
               key={post._id}
               className="bg-[#EAF9E7] rounded-xl shadow-md overflow-hidden hover:scale-105"
             >
-              {/* Use 'post.image' instead of 'post.imageUrl' */}
               <img
                 src={post.image}
                 alt={post.plantName}
@@ -85,16 +84,14 @@ const DasboardPostCards = () => {
               />
 
               <div className="p-4">
-                {/* Use 'post.plantName' instead of 'post.title' */}
                 <h3 className="text-xl font-bold text-[#013237] mb-2">
                   {post.plantName}
                 </h3>
 
-                {/* Use 'post.aboutPlant' instead of 'post.description' */}
-                <p className="text-sm text-gray-600 mb-4">{post.aboutPlant}</p>
+                <p className="text-neutral-950 mt-2 line-clamp-3 flex-grow">{post.aboutPlant}</p>
 
                 <div className="flex justify-between items-center">
-                  {/* Display the created date */}
+                
                   <span className="text-sm text-gray-500">
                     {new Date(post.createdAt).toLocaleDateString()}
                   </span>
@@ -102,7 +99,7 @@ const DasboardPostCards = () => {
                   <div className="flex space-x-2">
                     {/* Edit and Delete Buttons */}
                     <button
-                      onClick={() => handleEditPost(post)}
+                      onClick={() => handleEditPost(post._id)}
                       className="text-green-600 hover:bg-green-100 p-2 rounded-full"
                     >
                       <Edit size={20} />
@@ -123,5 +120,4 @@ const DasboardPostCards = () => {
     </div>
   );
 };
-
 export default DasboardPostCards;
