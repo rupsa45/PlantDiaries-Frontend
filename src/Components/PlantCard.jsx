@@ -30,13 +30,14 @@ const PlantCard = ({
   };
   
   return (
+    //hover:scale-[1.02]
     <div
       className="bg-white shadow-md rounded-xl 
       w-full sm:w-[280px] 
       flex flex-col 
       overflow-hidden 
-      transform transition-all duration-300 
-      hover:scale-[1.02] hover:shadow-lg"
+      transform transition-all duration-100 
+      hover:shadow-lg"
     >
       <div className="relative h-36 bg-neutral-200 overflow-hidden">
         <img
@@ -59,16 +60,16 @@ const PlantCard = ({
       </div>
       
       <div className="p-3 flex flex-col flex-grow">
-        <h2 className="text-base font-bold text-[#013237] line-clamp-1 mb-1">
+        <h2 className="text-xl font-bold text-[#013237] line-clamp-1 mb-1">
           {plantName}
         </h2>
         
         <div className="flex items-center gap-1.5 text-gray-600 text-xs mb-2">
           <MapPin className="w-3.5 h-3.5 text-[#4CA771]" />
-          <span className="truncate">{placeName}</span>
+          <span className="truncate font-semibold ">{placeName}</span>
         </div>
         
-        <p className="text-neutral-800 text-sm line-clamp-2 mb-2 flex-grow">
+        <p className="text-neutral-800 font-serif line-clamp-2 mb-2 flex-grow">
           {aboutPlant}
         </p>
         
