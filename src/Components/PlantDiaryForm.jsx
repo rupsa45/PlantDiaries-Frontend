@@ -132,7 +132,7 @@ const PlantDiaryBookForm = () => {
       }
     } catch (error) {
       console.log("Occured while creating Post : " + error);
-      toast.success("Occured while creating Post!😔")
+      toast.error("Occured while creating Post!😔")
     }
   };
 

@@ -70,3 +70,15 @@ export const getPlantPostById = async (id) => {
     throw error; 
   }
 };
+
+
+export const deletePostById= async(postId)=>{
+  try {
+    const response =  await axios.delete(`${API_BASE_URL}/plants/plant-posts/${postId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
