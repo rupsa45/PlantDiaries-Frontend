@@ -94,7 +94,7 @@ const MobileDetail = () => {
             <div className="space-y-6">
               <div className="text-center">
                 <h1 className="text-2xl md:text-3xl font-bold text-[#013237] mb-2">
-                  {plantPost.placeName || "Unknown Place"}
+                  {plantPost.plantName || "Unknown Plant"}
                 </h1>
               </div>
               <img
