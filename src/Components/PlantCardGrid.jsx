@@ -15,56 +15,60 @@ const PlantCardGrid = () => {
   const [longitude, setLongitude] = useState(null);
 
   useEffect(() => {
-    const fetchAllPost = async () => {
+    const fetchAllPosts = async () => {
       try {
         setLoading(true);
         const res = await getAllPost();
-        if (res) {
-          setPlantCards(res);
-        }
+        setPlantCards(res || []);
       } catch (error) {
         console.error("Error fetching posts:", error);
       } finally {
         setLoading(false);
       }
     };
-    fetchAllPost();
+
+    fetchAllPosts();
   }, []);
 
+
   const handlePlaceNameChange = async (e) => {
-    const placeName = e.target.value;
+    const placeName = e.target.value.trim();
     setSearchQuery(placeName);
 
-    if (placeName.trim().length > 2) {
-      try {
-        const response = await axios.get(
-          `https://api.weatherapi.com/v1/search.json`,
-          {
-            params: {
-              key: WEATHER_API,
-              q: placeName,
-            },
-          }
-        );
-        if (response.data.length > 0) {
-          const { lat, lon } = response.data[0];
-          setLatitude(lat);
-          setLongitude(lon);
-          setLocationError(""); // Clear any error
-        } else {
-          setLatitude(null);
-          setLongitude(null);
-          setLocationError("No location found for the entered place name.");
+    if (placeName.length < 3) {
+      setLocationError("Please enter at least 3 characters.");
+      setLatitude(null);
+      setLongitude(null);
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `https://api.weatherapi.com/v1/search.json`,
+        {
+          params: { key: WEATHER_API, q: placeName },
         }
-      } catch (error) {
-        setLocationError("Error fetching coordinates. Please try again.");
-        console.error("Error fetching coordinates:", error.message);
+      );
+
+      if (response.data?.length > 0) {
+        const { lat, lon } = response.data[0];
+        setLatitude(lat);
+        setLongitude(lon);
+        setLocationError("");
+      } else {
+        throw new Error("No location found.");
       }
+    } catch (error) {
+      setLocationError(
+        error.message || "Error fetching coordinates. Please try again."
+      );
+      setLatitude(null);
+      setLongitude(null);
     }
   };
 
   const handleSearchSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     if (!latitude || !longitude) {
       setLocationError("Please enter a valid place name.");
       return;
@@ -73,16 +77,17 @@ const PlantCardGrid = () => {
     try {
       setLoading(true);
       const response = await searchPosts(searchQuery, latitude, longitude);
-      if (response.data.posts) {
-        setPlantCards(response.data.posts);
-        setLocationError("");
-      } else {
-        setPlantCards([]);
+      setPlantCards(response.posts || []);
+      if (!response.posts?.length) {
         setLocationError("No plants found for the given location.");
+      } else {
+        setLocationError("");
       }
     } catch (error) {
-      setLocationError("Error fetching plant posts. Please try again.");
-      console.error("Error fetching plant posts:", error.message);
+      setLocationError(
+        error.message || "Error fetching plant posts. Please try again."
+      );
+      setPlantCards([]);
     } finally {
       setLoading(false);
     }
