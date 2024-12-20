@@ -25,7 +25,7 @@ const App = () => {
         <Route path="/verify-account" element={<VerifyAccount/>}/>
         <Route path="/plant-diary-form" element={<AddInputPage/>}/>
         <Route path="/discover" element={<DiscoverPage/>}/>
-        <Route path="/detail" element={<DetailsPage/>}/>
+        <Route path="/details/:id" element={<DetailsPage/>}/>
         <Route path="/profile" element={<ProfilePage/>}/>
       </Routes>
     </>

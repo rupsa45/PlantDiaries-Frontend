@@ -30,7 +30,6 @@ const PlantCardGrid = () => {
     fetchAllPosts();
   }, []);
 
-
   const handlePlaceNameChange = async (e) => {
     const placeName = e.target.value.trim();
     setSearchQuery(placeName);
@@ -123,13 +122,17 @@ const PlantCardGrid = () => {
               </form>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center ">
-              {plantCards.map((card, index) => (
-                <PlantCard
-                  key={index}
-                  {...card}
-                  onShare={(name) => console.log(`Shared: ${name}`)}
-                />
-              ))}
+              {plantCards.map((card, index) => {
+                const plantPostId = card._id;
+                return (
+                  <PlantCard
+                    key={index}
+                    {...card}
+                    plantPostId={plantPostId}
+                    onShare={(name) => console.log(`Shared: ${name}`)}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>

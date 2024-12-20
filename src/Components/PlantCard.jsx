@@ -9,6 +9,7 @@ const PlantCard = ({
   tags = [],
   createdAt,
   onShare,
+  plantPostId,
 }) => {
   const handleShare = () => {
     onShare && onShare(plantName);
@@ -74,7 +75,7 @@ const PlantCard = ({
         </p>
         
         <Link 
-          to="/detail" 
+          to={`/details/${plantPostId}`}
           className="text-[#4CA771] text-xs 
           underline self-start hover:text-[#3A8C5A] 
           mb-2 inline-block"

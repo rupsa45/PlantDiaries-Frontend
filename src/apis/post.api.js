@@ -58,3 +58,15 @@ export const getAllPost = async()=>{
     console.log("An error occurred while fetching the post", error);
   }
 }
+
+export const getPlantPostById = async (id) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/plants/plant-posts/${id}`,{
+      withCredentials: true,
+    });
+    return response.data; 
+  } catch (error) {
+    console.error("Error fetching plant post:", error);
+    throw error; 
+  }
+};

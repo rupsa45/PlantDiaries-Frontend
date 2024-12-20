@@ -1,27 +1,58 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Leaf,
   MapPin,
   Calendar,
   User,
   Mail,
-  Globe,
   ArrowLeft,
   ArrowRight,
 } from "lucide-react";
 import MobileDetail from "./MobileDetail";
+import { getPlantPostById } from "../apis/post.api";
+import { useParams } from "react-router-dom";
 
 const Details = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [plantPost, setPlantPost] = useState(null);
+  const { id } = useParams();
 
-  const totalPages = 3;
+  const totalPages = 2;
+  useEffect(() => {
+    const fetchPlantPost = async () => {
+      try {
+        setLoading(true);
+        const post = await getPlantPostById(id);
+        setPlantPost(post);
+      } catch (err) {
+        setError("Failed to fetch plant post.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchPlantPost();
+  }, [id]);
   const nextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p className="text-red-500">{error}</p>;
+  }
+
+  if (!plantPost) {
+    return <p>No plant post found.</p>;
+  }
   const prevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -41,15 +72,15 @@ const Details = () => {
             <div className="space-y-6">
               <div className="text-center">
                 <h1 className="text-3xl font-bold text-[#013237] mb-2">
-                  Monstera Deliciosa
+                  {plantPost.plantName}
                 </h1>
-                <p className="text-gray-600">Tropical Wonder</p>
+                <p className="text-gray-600">{plantPost.tags}</p>
               </div>
 
               <img
                 className="w-full h-[300px] object-cover rounded-lg shadow-md"
-                src="https://tools-api.webcrumbs.org/image-placeholder/400/300/plants/1"
-                alt="Monstera Deliciosa"
+                src={plantPost.image}
+                alt={plantPost.plantName}
               />
 
               <div className="space-y-4">
@@ -59,7 +90,7 @@ const Details = () => {
                 </div>
                 <div className="flex items-center space-x-3">
                   <Calendar className="w-5 h-5 text-[#4CA771]" />
-                  <span>2024-03-15</span>
+                  <span>{new Date(plantPost.createdAt).toLocaleDateString()}</span>
                 </div>
               </div>
             </div>
@@ -77,10 +108,7 @@ const Details = () => {
                 About the Plant
               </h2>
               <p className="text-neutral-800 leading-relaxed">
-                The Monstera Deliciosa, often called the Swiss Cheese Plant, is
-                a stunning tropical species known for its distinctive split
-                leaves and impressive growth. Native to the rainforests of
-                Central America, it's become a beloved houseplant worldwide.
+                {plantPost.aboutPlant}
               </p>
 
               <div>
@@ -90,54 +118,13 @@ const Details = () => {
                 <div className="flex items-center space-x-3">
                   <MapPin className="w-5 h-5 text-[#4CA771]" />
                   <div>
-                    <p className="font-semibold">Tropical Rainforests</p>
+                    {/* <p className="font-semibold">Tropical Rainforests</p> */}
                     <p className="text-sm text-gray-600">
-                      Southern Mexico to Panama
+                      {plantPost.placeName}
                     </p>
                   </div>
                 </div>
               </div>
-
-              <div>
-                <h3 className="text-lg font-bold text-[#013237] mb-2">
-                  Categories
-                </h3>
-                <div className="flex gap-2 flex-wrap">
-                  <span className="bg-[#4CA771] text-white rounded-full px-3 py-1 text-sm">
-                    Indoor
-                  </span>
-                  <span className="bg-[#4CA771] text-white rounded-full px-3 py-1 text-sm">
-                    Tropical
-                  </span>
-                  <span className="bg-[#4CA771] text-white rounded-full px-3 py-1 text-sm">
-                    Large Leaves
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Page - Location & Contact */}
-          <div
-            className={`w-1/2 p-8 border-l transition-all duration-500
-            ${currentPage === 3 ? "opacity-100" : "opacity-0 absolute"}
-          `}
-          >
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-[#013237] flex items-center">
-                <Globe className="w-6 h-6 mr-2 text-[#4CA771]" />
-                Native Region
-              </h2>
-              <div className="w-full h-[250px] bg-gray-200 rounded-lg overflow-hidden">
-                <iframe
-                  className="w-full h-full"
-                  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDmmzMB0uQreWkfz_4_ezMdTL-Pz8pT_3o&q=Southern+Mexico+Rainforests"
-                  allowFullScreen
-                  loading="lazy"
-                  title="Native Habitat"
-                />
-              </div>
-
               <div className="border-t pt-4 mt-4 border-neutral-200">
                 <h3 className="text-lg font-bold text-[#013237] mb-2 flex items-center">
                   <Mail className="w-5 h-5 mr-2 text-[#4CA771]" />
@@ -147,12 +134,13 @@ const Details = () => {
                   href="mailto:emily.botanica@plantsworld.com"
                   className="text-[#4CA771] hover:underline"
                 >
-                  emily.botanica@plantsworld.com
+                  {plantPost.contactEmail}
                 </a>
               </div>
             </div>
           </div>
 
+         
           {/* Page Navigation */}
           <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-4">
             <button
