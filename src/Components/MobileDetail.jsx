@@ -144,9 +144,6 @@ const MobileDetail = () => {
                 <div className="flex items-center space-x-3">
                   <MapPin className="w-5 h-5 text-[#4CA771]" />
                   <div>
-                    <p className="font-semibold">
-                      {plantPost.habitat?.region || "Unknown Region"}
-                    </p>
                     <p className="text-sm text-gray-600">
                       {plantPost.placeName || "Unknown Place"}
                     </p>

@@ -74,7 +74,7 @@ const Details = () => {
                 <h1 className="text-3xl font-bold text-[#013237] mb-2">
                   {plantPost.plantName}
                 </h1>
-                <p className="text-gray-600">{plantPost.tags}</p>
+                <p className="text-green-400">{plantPost.tags}</p>
               </div>
 
               <img
