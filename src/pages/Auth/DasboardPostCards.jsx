@@ -12,14 +12,14 @@ const DashboardPostCards = () => {
 
   //post deletion
   const handleDeletePost = async (postId) => {
-    if (!window.confirm("Are you sure you want to delete this post?")) return;
+    // if (!window.confirm("Are you sure you want to delete this post?")) return;
     try {
       await deletePostById(postId);
       setUserPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
-      toast.success("Post deleted successfully.");
+      toast.success("Post deleted successfully.🌱");
     } catch (err) {
       console.error("Error deleting post:", err);
-      toast.error("Failed to delete the post. Please try again.");
+      toast.error("Failed to delete the post. Please try again.❗");
     }
   };
 

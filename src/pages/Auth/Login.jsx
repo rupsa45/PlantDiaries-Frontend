@@ -117,7 +117,7 @@ const Login = () => {
         </form>
 
         <div className="text-sm text-center mt-4">
-          Don't have an account?
+          {`Don't`} have an account?
           <Link
             to="/signup"
             className="font-medium underline text-[#4CA771] hover:text-[#013237] transition-colors duration-300"

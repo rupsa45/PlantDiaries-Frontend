@@ -82,3 +82,16 @@ export const deletePostById= async(postId)=>{
     console.log(error);
   }
 }
+
+export const editPost = async(postId,updateData)=>{
+  try {
+    const response = await axios.put(`${API_BASE_URL}/plants/plant-posts/${postId}`,
+      updateData,
+    {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

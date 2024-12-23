@@ -11,6 +11,7 @@ import ResetPassword from "./pages/Auth/ResetPassword";
 import VerifyAccount from "./pages/Auth/VerifyAccount";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EditPlantDiaryPage from "./pages/EditPlantDiaryPage";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/discover" element={<DiscoverPage/>}/>
         <Route path="/details/:id" element={<DetailsPage/>}/>
         <Route path="/profile" element={<ProfilePage/>}/>
+        <Route path="/edit-post/:id" element={<EditPlantDiaryPage/>}/>
       </Routes>
     </>
   )
