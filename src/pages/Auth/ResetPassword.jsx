@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import  { useState } from "react";
+import {  useNavigate } from "react-router-dom";
 import { Mail, Lock } from "lucide-react";
 import { resetPassword } from "../../apis/user.api";
 
@@ -9,6 +9,7 @@ const ResetPassword = () => {
     otp: "",
     newPassword: "",
   });
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
