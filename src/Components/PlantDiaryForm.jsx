@@ -14,7 +14,6 @@ const PlantDiaryBookForm = () => {
     aboutPlant: "",
     tags: "",
     // category: [],
-    contactEmail: "",
     placeName: "",
     latitude: null,
     longitude: null,
@@ -42,12 +41,11 @@ const PlantDiaryBookForm = () => {
   //     "Others"];
 
   const validateForm = () => {
-    const { plantName, aboutPlant, tags, contactEmail, placeName, image } = formData;
+    const { plantName, aboutPlant, tags, placeName, image } = formData;
     const isValid =
       plantName.trim() &&
       aboutPlant.trim() &&
       tags.trim() &&
-      contactEmail.trim() &&
       placeName.trim() &&
       image.length > 0 ;
     setFormIsValid(isValid);
@@ -123,7 +121,6 @@ const PlantDiaryBookForm = () => {
           plantName: "",
           aboutPlant: "",
           tags: "",
-          contactEmail: "",
           placeName: "",
           latitude: null,
           longitude: null,
@@ -289,7 +286,7 @@ const PlantDiaryBookForm = () => {
       case 3:
         return (
           <div className="space-y-6">
-            <div>
+            {/* <div>
               <label className="block text-xl font-serif text-[#013237] mb-2">
                 Your Email Address
               </label>
@@ -302,7 +299,7 @@ const PlantDiaryBookForm = () => {
                 className="w-full px-4 py-3 border-b-2 border-[#4CA771] bg-transparent text-[#013237] focus:outline-none"
                 required
               />
-            </div>
+            </div> */}
 
             <div className="text-center">
               <p className="text-[#013237] mb-4">

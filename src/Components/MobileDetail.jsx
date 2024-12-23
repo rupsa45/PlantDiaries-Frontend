@@ -106,7 +106,7 @@ const MobileDetail = () => {
                 <div className="flex items-center space-x-3">
                   <User className="w-5 h-5 text-[#4CA771]" />
                   <span className="font-semibold">
-                    {plantPost.plantName || "Unknown Plant"}
+                    {plantPost.createdBy?.name || "Unknown Plant"}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
@@ -156,10 +156,10 @@ const MobileDetail = () => {
                   Contact Creator
                 </h3>
                 <a
-                  href={`mailto:${plantPost.contactEmail}`}
+                  href={`mailto:${plantPost.createdBy?.email}`}
                   className="text-[#4CA771] hover:underline"
                 >
-                  {plantPost.contactEmail || "No Contact Information"}
+                  {plantPost.createdBy?.email || "No Contact Information"}
                 </a>
               </div>
             </div>
