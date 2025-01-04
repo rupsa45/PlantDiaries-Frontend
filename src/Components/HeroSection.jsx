@@ -1,41 +1,38 @@
-import { Link } from 'react-router-dom'
-import '../App.css'
+import { Link } from "react-router-dom";
+import "../App.css";
 
 const HeroSection = () => {
   return (
-    <div>
-       <section 
-        className="relative h-[75vh]  flex items-center justify-center text-center"
-      >
-        <img
-        src="/hero2.jpeg"
-        alt="Leafy background"
-        className="absolute inset-0  w-full h-full object-cover z-0 opacity-50"
-      />
-        <div className="absolute inset-0 bg-[#013237] opacity-60"></div>
-        <div className="relative z-10 text-center px-6">
-          <h2 className="text-5xl font-bold agu-display text-[#EAF9E7] mb-6 drop-shadow-lg">
+    <div className="pt-24 pb-16 px-4">
+      <div className="max-w-7xl mx-auto relative">
+        <div className="bg-white/30 backdrop-blur-md rounded-3xl p-12 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-emerald-600/10" />
+          <h1 className="text-5xl  font-bold text-emerald-900 mb-6 relative z-10">
             Cultivate Your Green Narrative
-          </h2>
-          <p className="text-xl text-[#EAF9E7]  roboto-slab  mb-8 max-w-2xl mx-auto">
-            Transform your plant care journey into a beautiful, shareable story. Connect, learn, and grow with a community that celebrates every leaf and bloom.
+          </h1>
+          <p className="text-lg text-emerald-800 max-w-2xl mx-auto mb-8 relative z-10">
+            Transform your plant care journey into a beautiful, shareable story.
+            Connect, learn, and grow with a community that celebrates every leaf
+            and bloom.
           </p>
-          <div className="flex justify-center space-x-4">
-            <button className="bg-[#4CA771] text-white px-8 py-3 rounded-full hover:bg-[#3A8C5A] transition-colors">
-              <Link to="/plant-diary-form">
+          <div className="flex justify-center space-x-4 relative z-10">
+            <Link
+              to="/plant-diary-form"
+              className="bg-emerald-600 text-white px-8 py-3 rounded-full hover:bg-emerald-500 transition transform hover:-translate-y-1"
+            >
               Start Your Diary
-              </Link>
-            </button>
-            <button className="border-2 border-[#EAF9E7] text-[#EAF9E7] px-8 py-3 rounded-full hover:bg-[#EAF9E7] hover:text-[#013237] transition-colors">
-             <Link to='/discover'>
+            </Link>
+            <Link
+              to="/discover"
+              className="bg-white/80 text-emerald-700 px-8 py-3 rounded-full hover:bg-white transition transform hover:-translate-y-1"
+            >
               Explore Plants
-             </Link>
-            </button>
+            </Link>
           </div>
         </div>
-      </section>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default HeroSection
+export default HeroSection;

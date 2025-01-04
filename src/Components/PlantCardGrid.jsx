@@ -102,7 +102,7 @@ const PlantCardGrid = () => {
   }
 
   return (
-    <div className="w-full px-4 py-8 bg-gradient-to-br from-[#EAF9E7] to-[#C0E6BA] relative">
+    <div className="w-full px-4 py-8  relative">
       <div className="">
         <div className="flex justify-center">
           <div className="w-full max-w-4xl">

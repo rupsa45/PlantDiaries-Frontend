@@ -328,7 +328,7 @@ const PlantDiaryBookForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#EAF9E7] to-[#C0E6BA] flex items-center justify-center p-4">
+    <div className="min-h-screen  flex items-center justify-center p-4">
       <div className="w-full max-w-4xl bg-white shadow-2xl rounded-2xl overflow-hidden flex flex-col lg:flex-row">
         {/* Book Cover */}
         <div className="w-full lg:w-1/2 bg-[#013237] text-[#EAF9E7] p-8 lg:p-12 flex flex-col justify-center">

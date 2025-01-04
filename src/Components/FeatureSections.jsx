@@ -1,30 +1,45 @@
 
-import React from 'react'
-import { featureCards } from '../utils/Data'
+import { BookOpen, Heart, Users } from 'lucide-react'
 
 const FeatureSections = () => {
     
   return (
-    <div>
-      <section className="container mx-auto py-16 px-6">
-        <div className="grid md:grid-cols-3 gap-8">
-          {featureCards.map((card, index) => (
-            <div 
-              key={index} 
-              className="group relative bg-white rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-105"
-            >
-              <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${card.image})`}}></div>
-              <div className="absolute inset-0   opacity-70 group-hover:opacity-80 transition-opacity"></div>
-              <div className="relative z-10 p-6  text-center font-bold text-[#0F2A1D]">
-                {card.icon}
-                <h3 className="text-xl text-black font-bold mt-4">{card.title}</h3>
-                <p className="mt-2 roboto-slab opacity-80">{card.description}</p>
-              </div>
-            </div>
-          ))}
+    <div className="max-w-7xl mx-auto px-4 py-16">
+    <div className="grid md:grid-cols-3 gap-8">
+      {/* Document Journey Card */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+        <div className="bg-orange-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+          <BookOpen className="h-6 w-6 text-orange-600" />
         </div>
-    </section>
+        <h3 className="text-xl font-semibold text-gray-800 mb-3">Document Journey</h3>
+        <p className="text-gray-600">
+          Create personalized digital diaries tracking every milestone of your plants' lives.
+        </p>
+      </div>
+
+      {/* Share Stories Card */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+        <div className="bg-emerald-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+          <Heart className="h-6 w-6 text-emerald-600" />
+        </div>
+        <h3 className="text-xl font-semibold text-gray-800 mb-3">Share Stories</h3>
+        <p className="text-gray-600">
+          Connect with a community of plant lovers, sharing your green adventures and inspirations.
+        </p>
+      </div>
+
+      {/* Learn & Grow Card */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+        <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+          <Users className="h-6 w-6 text-blue-600" />
+        </div>
+        <h3 className="text-xl font-semibold text-gray-800 mb-3">Learn & Grow</h3>
+        <p className="text-gray-600">
+          Access a comprehensive knowledge base with expert tips, care guides, and plant health insights.
+        </p>
+      </div>
     </div>
+  </div>
   )
 }
 

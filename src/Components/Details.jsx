@@ -59,9 +59,9 @@ const Details = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F0F4F8] flex justify-center items-center p-4">
+    <div className="min-h-screen  flex justify-center items-center p-4">
       <div className="w-full max-w-4xl">
-        <div className="hidden bg-white shadow-2xl rounded-2xl overflow-hidden md:flex relative">
+        <div className="hidden bg-gradient-to-r from-emerald-500/10 to-emerald-600/10 shadow-2xl rounded-2xl overflow-hidden md:flex relative">
           {/* Left Page */}
           <div
             className={`w-1/2 p-8 transition-all duration-500 

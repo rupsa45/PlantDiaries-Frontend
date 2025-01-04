@@ -45,7 +45,7 @@ const Navbar = () => {
     setIsDropdownOpen((prev) => !prev);
   };
   return (
-    <div className="bg-[#c4e7cf] text-slate-900 shadow-xl">
+    <div className="bg-white/80 backdrop-blur-sm text-slate-900 shadow-xl">
       <div className="hidden container mx-auto md:flex justify-between items-center py-4 px-6">
         {/* Logo Section */}
         <Link to="/" className="flex text-2xl font-serif font-bold items-center space-x-4">
@@ -54,11 +54,11 @@ const Navbar = () => {
         </Link>
 
         {/* Navigation Links */}
-        <nav className="hidden md:flex space-x-8 font-serif text-slate-600">
-          <Link to="/" className="hover:text-[#4CA771] transition">
+        <nav className="hidden md:flex space-x-8 font-serif">
+          <Link to="/" className=" text-emerald-700 hover:text-emerald-500  transition">
             Home
           </Link>
-          <Link to="/discover" className="hover:text-[#4CA771] transition">
+          <Link to="/discover" className="ext-emerald-700 hover:text-emerald-500 transition">
             Discover
           </Link>
           {user && (
