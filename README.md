@@ -17,13 +17,13 @@ A user-friendly platform for plant enthusiasts to share, explore, and document t
 ## 📸 Screenshots
 
 ### Home Page
-![Home Page](path/to/home-page-screenshot.png)
+![Home Page](https://github.com/rupsa45/images-/blob/main/HomePage.jpg)
 
 ### Plant Card
-![Plant Card](path/to/plant-card-screenshot.png)
+![Plant Card](https://github.com/rupsa45/images-/blob/main/DiscoverPage.png)
 
 ### Detail Page
-![Detail Page](path/to/detail-page-screenshot.png)
+![Detail Page](https://github.com/rupsa45/images-/blob/main/DetailPage.png)
 
 ## 🛠️ Technologies Used
 
@@ -70,30 +70,4 @@ A user-friendly platform for plant enthusiasts to share, explore, and document t
 
 
 
-## 🖼️ Adding Screenshots
-
-To include screenshots:
-1. Save the images in the `src/assets/screenshots` folder (or another path of your choice).
-2. Replace the placeholder paths in the **Screenshots** section above with the actual paths, e.g.,:
-   ```markdown
-   ![Home Page](src/assets/screenshots/home-page.png)
-   ```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a pull request.
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
-
 **Happy Gardening!** 🌿
-```
-
-### Next Steps:
-1. Add your screenshots to the project directory (e.g., `src/assets/screenshots/`).
-2. Update the `README.md` file with the actual paths to these images or upload them to a hosting service like [Imgur](https://imgur.com/) and use the image URLs.
-
-Let me know if you'd like any further customization!
