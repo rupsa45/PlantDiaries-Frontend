@@ -46,7 +46,7 @@ const MobileNav = () => {
   };
 
   return (
-    <div className="bg-[#c4e7cf] text-slate-900 shadow-lg">
+    <div className="bg-white/80 backdrop-blur-sm text-slate-900 shadow-lg">
       <div className="container mx-auto flex justify-between items-center py-4 px-6 mobile-nav">
         {/* Logo Section */}
         <Link to="/" className="text-2xl font-bold tracking-wide">
@@ -55,7 +55,8 @@ const MobileNav = () => {
 
         {/* Menu Toggle Button */}
         <div className="flex items-center space-x-4 ">
-          <button onClick={toggleMenu} className="focus:outline-none">
+          <button onClick={toggleMenu} className="p-2 rounded-lg hover:bg-emerald-50 transition-colors focus:outline-none"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}>
             {isMenuOpen ? (
               <X className="h-8 w-8" />
             ) : (
@@ -66,7 +67,7 @@ const MobileNav = () => {
       </div>
 
       {isMenuOpen && (
-        <div className="absolute z-20 w-full bg-[#c4e7cf] shadow-lg">
+        <div className=" w-full shadow-lg">
           <nav className="flex flex-col space-y-4 p-6">
             {/* Navigation Links */}
             <Link

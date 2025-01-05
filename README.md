@@ -17,13 +17,14 @@ A user-friendly platform for plant enthusiasts to share, explore, and document t
 ## 📸 Screenshots
 
 ### Home Page
-![Home Page](https://github.com/rupsa45/images-/blob/main/HomePage.jpg)
+![Home Page](https://raw.githubusercontent.com/rupsa45/images/main/HomePage.jpg)
 
 ### Plant Card
-![Plant Card](https://github.com/rupsa45/images-/blob/main/DiscoverPage.png)
+![Plant Card](https://raw.githubusercontent.com/rupsa45/images/main/DiscoverPage.png)
 
 ### Detail Page
-![Detail Page](https://github.com/rupsa45/images-/blob/main/DetailPage.png)
+![Detail Page](https://raw.githubusercontent.com/rupsa45/images/main/DetailPage.png)
+
 
 ## 🛠️ Technologies Used
 
