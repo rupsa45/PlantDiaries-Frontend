@@ -48,9 +48,9 @@ const Navbar = () => {
     <div className="bg-white/80 backdrop-blur-sm text-slate-900 shadow-xl">
       <div className="hidden container mx-auto md:flex justify-between items-center py-4 px-6">
         {/* Logo Section */}
-        <Link to="/" className="flex text-2xl font-serif font-bold items-center space-x-4">
+        <Link to="/" className="flex text-2xl font-serif font-bold items-center space-x-1">
           <Leaf className="text-[#4CA771]  w-10 h-10" />
-          <h1 className="text-[#4CA771] ">Plant</h1>Diaries
+          <span className="text-emerald-600 font-medium">Plant</span>Diaries
         </Link>
 
         {/* Navigation Links */}
