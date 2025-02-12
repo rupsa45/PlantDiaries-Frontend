@@ -64,7 +64,7 @@ const Login = () => {
           Welcome back
         </h1>
         <p className="text-center text-sm text-[#4CA771] mt-2">
-          Log in to your BloomSphere account
+          Log in to your PlantDiaries account
         </p>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {/* Email Field */}

@@ -72,7 +72,7 @@ const CreateAccount = () => {
           Create your account
         </h1>
         <p className="text-center text-sm text-[#4CA771] mt-2">
-          Join BloomSphere and start your green journey
+          Join PlantDiaries and start your green journey
         </p>
 
         {/* Show error message if exists */}
