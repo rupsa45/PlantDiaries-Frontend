@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Mail, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
-import {login, verifyEmailAfterLogin } from '../../apis/user.api'
+import {login } from '../../apis/user.api'
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -20,32 +20,22 @@ const Login = () => {
 
   const [userId, setUserId] = useState();
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response= await login(formData.email,formData.password);
-      
-    if (response.success) {
-      const { userId, isAccountVerified } = response;
-      localStorage.setItem("userId", userId);
-      if (!isAccountVerified) {
-        const otpResponse = await verifyEmailAfterLogin(userId);
-        if (otpResponse.success) {
-          setUserId(userId);
-          navigate("/verify-account");
-        } else {
-          alert("Failed to send OTP. Please try again.");
-        }
-      } else {
+      const response = await login(formData.email, formData.password);
+  
+      if (response.success) {
+        localStorage.setItem("userId", response.userId);
         navigate("/");
+      } else {
+        console.log(response.message || "Login failed.");
       }
-    } else {
-      console.log(response.message || "Login failed.");
-    }
     } catch (error) {
-      console.log("error in login:",error);
+      console.log("error in login:", error);
     }
   };
+  
 
   return (
     <div

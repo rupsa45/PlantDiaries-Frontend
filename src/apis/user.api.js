@@ -74,36 +74,6 @@ export const forgetPass = async (email) => {
   }
 };
 
-//verify Otp After Login
-export const verifyEmailAfterLogin = async (userId) => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/auth/send-verify-otp`, {
-      userId,
-    },{ withCredentials: true });
-    if (response.data.success) {
-      console.log("OTP sent successfully:", response.data.message);
-      return response.data;
-    }
-  } catch (error) {
-    console.error("Error during OTP request", error.message);
-  }
-};
-
-export const verifyAccount = async (userId,otp) => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/auth/verify-account`,  {
-      userId, // Pass userId to the backend
-      otp,
-    },{ withCredentials: true });
-    if (response.data.success) {
-      console.log("Your account has been successfully verified", response.data.message);
-      return response.data;
-    }
-  } catch (error) {
-    console.error("Error during OTP verification", error.message);
-  }
-};
-
 export const resetPassword = async (email, otp, newPassword) => {
   try {
     const response = await axios.post(
@@ -116,5 +86,3 @@ export const resetPassword = async (email, otp, newPassword) => {
     console.error("Login failed", error);
   }
 };
-
-// /auth/send-verify-otp

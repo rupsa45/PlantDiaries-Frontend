@@ -41,7 +41,7 @@ const HeroSection = () => {
           <p className="text-lg mb-8 relative z-10 max-w-2xl mx-auto">
             Join thousands of plant enthusiasts and start documenting your green adventures today.
           </p>
-          <Link to="/login" className="bg-white text-emerald-600 px-8 py-3 rounded-full hover:bg-emerald-50 transition transform hover:-translate-y-1 relative z-10">
+          <Link to="/" className="bg-white text-emerald-600 px-8 py-3 rounded-full hover:bg-emerald-50 transition transform hover:-translate-y-1 relative z-10">
             Get Started Now
           </Link>
         </div>
