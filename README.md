@@ -14,16 +14,6 @@ A user-friendly platform for plant enthusiasts to share, explore, and document t
 - 📆 View and filter posts by posting date.
 - 🔗 Easy sharing via social media or clipboard.
 
-## 📸 Screenshots
-
-### Home Page
-![Home Page](https://raw.githubusercontent.com/rupsa45/images/main/HomePage.jpg)
-
-### Plant Card
-![Plant Card](https://raw.githubusercontent.com/rupsa45/images/main/DiscoverPage.png)
-
-### Detail Page
-![Detail Page](https://raw.githubusercontent.com/rupsa45/images/main/DetailPage.png)
 
 
 ## 🛠️ Technologies Used
